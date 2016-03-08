@@ -1,0 +1,13 @@
+# Object files
+*.o
+*.exe
+*.a
+
+# System files
+.DS_Store
+
+# instalation files
+install/
+
+# Test Files
+*_test

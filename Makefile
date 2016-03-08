@@ -53,26 +53,29 @@ check: $(TESTS)
 %.o: $(LIB_DIR)/%.c $(LIB_DIR)/%.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -c -o $@ $<
 
-mock_%.o : $(TRANSPORT_TEST_MOCK_DIR)/mock_%.c
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(TRANSPORT_LIB_DIR) -c -o $@ $<
+mock_%.o : $(INTEGRATION_TEST_MOCK_DIR)/mock_%.c
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -c -o $@ $<
 
-%_integration_test.o: $(INTEGRATION_TEST_DIR)/%_integration_test.cc 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(GTEST_HEADERS) -c -o $@ $<
+# %_integration_test.o: $(INTEGRATION_TEST_DIR)/%_integration_test.cc
+# 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(GTEST_HEADERS) -c -o $@ $<
+#
+# %_test.o: $(UNIT_TEST_DIR)/%_test.cc
+# 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(GTEST_HEADERS) -c -o $@ $<
+
+%_test.o: $(UNIT_TEST_DIR)/%_test.cc
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -c -o $@ $<
 	
-%_test.o: $(UNIT_TEST_DIR)/%_test.cc 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(GTEST_HEADERS) -c -o $@ $<
-	
-universal_transport_%_test.o: $(TRANSPORT_TEST_DIR)/universal_transport_%_test.cc
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(TRANSPORT_LIB_DIR) -c -o $@ $<
+%_test.o: $(INTEGRATION_TEST_DIR)/%_test.cc
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -c -o $@ $<
 	
 universal_transport_websocket_test: $(OBJS) universal_transport_websocket_test.o mock_websocket_server.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(TRANSPORT_LIB_DIR) -lgtest_main -lgtest $(LIB_DEPS) $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -lgtest_main -lgtest $(LIB_DEPS) $^ -o $@
 
-universal_transport_%_test: $(TRANSPORT_OBJS) universal_transport_%_test.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(TRANSPORT_LIB_DIR) -lgtest_main -lgtest $(LIB_DEPS) $^ -o $@
-		
-%_integration_test: %_integration_test.o $(OBJS) 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -lgtest_main -lgtest $^ -o $@
+# universal_transport_%_test: $(TRANSPORT_OBJS) universal_transport_%_test.o
+# 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -I$(LIB_DIR) -I$(TRANSPORT_LIB_DIR) -lgtest_main -lgtest $(LIB_DEPS) $^ -o $@
+#
+# %_integration_test: %_integration_test.o $(OBJS)
+# 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -lgtest_main -lgtest $^ -o $@
 	
 %_test: %_test.o $(OBJS) 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LIB_DEPS) -lgtest_main -lgtest $^ -o $@

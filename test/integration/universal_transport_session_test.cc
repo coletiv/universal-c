@@ -119,7 +119,7 @@ TEST(universal_transport_session_test, transport_session_service_open_retry)
 	// TODO
 }
 
-TEST(universal_transport_session_test, transport_session_network_found)
+TEST(universal_transport_session_test, transport_session_example_ping)
 {
     struct transport_session_handler _test_empty_handler = {
     NULL,
@@ -138,16 +138,18 @@ TEST(universal_transport_session_test, transport_session_network_found)
     // run loop
     transport_session_test_runloop(transport_session);
 	
-	struct timeval tv;
-	gettimeofday(&tv, DST_NONE);
-	uint64_t timestamp_ms = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	
-    transport_type_network_t _network = transport_type_network_create(&timestamp_ms, "188.250.186.90", "coletiv studio", NULL);
+	  struct timeval tv;
+	  gettimeofday(&tv, DST_NONE);
+	  uint64_t timestamp_ms = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	  char text[256];
+    snprintf(text, 256, "@coletivstudio hello world! %lu", timestamp_ms);
+    
+    transport_type_example_t _example = transport_type_example_create(text);
 
-    transport_session_network_found(transport_session, _network);
+    transport_session_example_ping(transport_session, _example);
     transport_session_test_runloop(transport_session);
 
-    transport_type_network_release(_network);
+    transport_type_example_release(_example);
 
     // close
     transport_session_close(transport_session);

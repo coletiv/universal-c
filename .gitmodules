@@ -1,0 +1,9 @@
+[submodule "deps/msgpack-c"]
+	path = deps/msgpack-c
+	url = https://github.com/msgpack/msgpack-c.git
+[submodule "deps/libwebsockets"]
+	path = deps/libwebsockets
+	url = https://github.com/warmcat/libwebsockets.git
+[submodule "deps/wolfssl"]
+	path = deps/wolfssl
+	url = git@github.com:coletiv/wolfssl.git

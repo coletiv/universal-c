@@ -1,6 +1,6 @@
 /*
 
-universal_base.h
+universal.h
 universal-c
 
 Copyright (c) 2016 Coletiv Studio
@@ -24,42 +24,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
 
-#ifndef __UNIVERSAL_BASE_H__
-#define __UNIVERSAL_BASE_H__
+#ifndef __UNIVERSAL_C_H__
+#define __UNIVERSAL_C_H__
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/time.h>
-#include <sys/errno.h>
-#include <assert.h>
-#include <stddef.h>
+#include "universal_transport_session.h"
+#include "universal_transport_types.h"
 
-typedef int32_t universal_error_t;
-
-#if !defined(UNIVERSAL_EXTERN_C_BEGIN)
-#if defined(__cplusplus)
-#define UNIVERSAL_EXTERN_C_BEGIN extern "C" {
-#define UNIVERSAL_EXTERN_C_END   }
-#else
-#define UNIVERSAL_EXTERN_C_BEGIN
-#define UNIVERSAL_EXTERN_C_END
-#endif
-#endif
-
-#if defined(DEBUG) || defined(TEST)
-#define Logc(format, ...) printf(("universal: " format "\n"), ## __VA_ARGS__)
-#define LogErrorc(format, ...) printf(("universal: *error* " format "\n"), ## __VA_ARGS__)
-#define PrettyLogc printf("universal: * %s\n", __PRETTY_FUNCTION__)
-#else
-#define Logc(format, ...)
-#define LogErrorc(format, ...)
-#define PrettyLogc
-#ifndef NS_BLOCK_ASSERTIONS // Block Assertions in Release versions
-#define NS_BLOCK_ASSERTIONS
-#endif
-#endif
-
-#endif /* __UNIVERSAL_BASE_H__ */
+#endif /* __UNIVERSAL_C_H__ */

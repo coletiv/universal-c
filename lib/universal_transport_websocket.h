@@ -27,7 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef __UNIVERSAL_C_TRANSPORT_WEBSOCKET_H__
 #define __UNIVERSAL_C_TRANSPORT_WEBSOCKET_H__
 
-#include "universal_base.h"
+#include "universal_internal.h"
 #include "universal_transport_messages.h"
 
 #include <libwebsockets.h>

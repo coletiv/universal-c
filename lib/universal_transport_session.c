@@ -30,6 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "universal_transport_session_internal.h"
 #include "universal_transport_session_state.h"
 
+#include "universal_internal.h"
 #include "universal_transport_constants.h"
 
 #pragma mark -
@@ -60,11 +61,11 @@ enum {
  UniversalTransportAgent+State.m is automatically generated from this file
  */
 
-#line 273 "../lib/universal_transport_session.rl"
+#line 274 "../lib/universal_transport_session.rl"
 
 
 
-#line 68 "../lib/universal_transport_session.c"
+#line 69 "../lib/universal_transport_session.c"
 static const int transport_session_state_start = 8;
 static const int transport_session_state_first_final = 8;
 static const int transport_session_state_error = 0;
@@ -72,7 +73,7 @@ static const int transport_session_state_error = 0;
 static const int transport_session_state_en_main = 8;
 
 
-#line 276 "../lib/universal_transport_session.rl"
+#line 277 "../lib/universal_transport_session.rl"
 
 void transport_session_state_begin(transport_session_t self)
 {
@@ -99,7 +100,7 @@ void transport_session_state_set_event(transport_session_t self, transport_sessi
     const transport_session_state_event * pe = &event + 1;
     
     
-#line 103 "../lib/universal_transport_session.c"
+#line 104 "../lib/universal_transport_session.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -113,7 +114,7 @@ st0:
 cs = 0;
 	goto _out;
 tr3:
-#line 165 "../lib/universal_transport_session.rl"
+#line 166 "../lib/universal_transport_session.rl"
 	{
        Logc("action do_disconnect_and_save");
        
@@ -122,7 +123,7 @@ tr3:
     }
 	goto st1;
 tr12:
-#line 119 "../lib/universal_transport_session.rl"
+#line 120 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_stop_observing_reachability (state: %d)", _state);
@@ -131,7 +132,7 @@ tr12:
         
         transport_reachability_stop_observing(self->reachability);
     }
-#line 165 "../lib/universal_transport_session.rl"
+#line 166 "../lib/universal_transport_session.rl"
 	{
        Logc("action do_disconnect_and_save");
        
@@ -140,11 +141,11 @@ tr12:
     }
 	goto st1;
 tr15:
-#line 179 "../lib/universal_transport_session.rl"
+#line 180 "../lib/universal_transport_session.rl"
 	{
         // [_stateTimeout cancel];
     }
-#line 165 "../lib/universal_transport_session.rl"
+#line 166 "../lib/universal_transport_session.rl"
 	{
        Logc("action do_disconnect_and_save");
        
@@ -156,21 +157,21 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 160 "../lib/universal_transport_session.c"
+#line 161 "../lib/universal_transport_session.c"
 	if ( (*p) == 11 )
 		goto tr0;
 	if ( 22 <= (*p) && (*p) <= 23 )
 		goto st1;
 	goto st0;
 tr0:
-#line 79 "../lib/universal_transport_session.rl"
+#line 80 "../lib/universal_transport_session.rl"
 	{
        Logc("ACTION do_connect (state: %d)", self->state);
        transport_websocket_open(self->websocket);
     }
 	goto st2;
 tr14:
-#line 119 "../lib/universal_transport_session.rl"
+#line 120 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_stop_observing_reachability (state: %d)", _state);
@@ -179,7 +180,7 @@ tr14:
         
         transport_reachability_stop_observing(self->reachability);
     }
-#line 79 "../lib/universal_transport_session.rl"
+#line 80 "../lib/universal_transport_session.rl"
 	{
        Logc("ACTION do_connect (state: %d)", self->state);
        transport_websocket_open(self->websocket);
@@ -189,7 +190,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 193 "../lib/universal_transport_session.c"
+#line 194 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr3;
 		case 11: goto st2;
@@ -198,7 +199,7 @@ case 2:
 	}
 	goto st0;
 tr5:
-#line 128 "../lib/universal_transport_session.rl"
+#line 129 "../lib/universal_transport_session.rl"
 	{
        Logc("ACTION do_check_session_info (state: %d)", self->state);
         // if(strlen(self->user_id) > 0) // valid agent_id?
@@ -212,7 +213,7 @@ tr5:
     }
 	goto st3;
 tr20:
-#line 190 "../lib/universal_transport_session.rl"
+#line 191 "../lib/universal_transport_session.rl"
 	{
         Logc("action do_close_session");
         
@@ -224,7 +225,7 @@ tr20:
         // Push next state event
         transport_session_state_push_event(self, UNIVERSAL_TRANSPORT_SESSION_STATE_EVENT_RESIGN_ACTIVE);
     }
-#line 202 "../lib/universal_transport_session.rl"
+#line 203 "../lib/universal_transport_session.rl"
 	{
         Logc("action did_close_session");
         
@@ -237,7 +238,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 241 "../lib/universal_transport_session.c"
+#line 242 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr3;
 		case 11: goto st3;
@@ -247,7 +248,7 @@ case 3:
 		goto tr6;
 	goto st0;
 tr6:
-#line 93 "../lib/universal_transport_session.rl"
+#line 94 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_check_reachability (state: %d)", _state);
@@ -266,7 +267,7 @@ tr6:
     }
 	goto st4;
 tr10:
-#line 84 "../lib/universal_transport_session.rl"
+#line 85 "../lib/universal_transport_session.rl"
 	{
        Logc("set ACTION do_wait_and_retry (state: %d)", self->state);
         // mActionBackgroundDispatchAfterMilliseconds(kDefaultWaitRetryMilliseconds, ^{
@@ -277,11 +278,11 @@ tr10:
     }
 	goto st4;
 tr17:
-#line 179 "../lib/universal_transport_session.rl"
+#line 180 "../lib/universal_transport_session.rl"
 	{
         // [_stateTimeout cancel];
     }
-#line 93 "../lib/universal_transport_session.rl"
+#line 94 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_check_reachability (state: %d)", _state);
@@ -300,13 +301,13 @@ tr17:
     }
 	goto st4;
 tr19:
-#line 179 "../lib/universal_transport_session.rl"
+#line 180 "../lib/universal_transport_session.rl"
 	{
         // [_stateTimeout cancel];
     }
 	goto st4;
 tr22:
-#line 202 "../lib/universal_transport_session.rl"
+#line 203 "../lib/universal_transport_session.rl"
 	{
         Logc("action did_close_session");
         
@@ -314,7 +315,7 @@ tr22:
         if(self->handler.close_callback != NULL)
             self->handler.close_callback(self->handler.context);
     }
-#line 93 "../lib/universal_transport_session.rl"
+#line 94 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_check_reachability (state: %d)", _state);
@@ -333,7 +334,7 @@ tr22:
     }
 	goto st4;
 tr23:
-#line 202 "../lib/universal_transport_session.rl"
+#line 203 "../lib/universal_transport_session.rl"
 	{
         Logc("action did_close_session");
         
@@ -346,7 +347,7 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 350 "../lib/universal_transport_session.c"
+#line 351 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr3;
 		case 11: goto st4;
@@ -356,7 +357,7 @@ case 4:
 	}
 	goto st0;
 tr11:
-#line 110 "../lib/universal_transport_session.rl"
+#line 111 "../lib/universal_transport_session.rl"
 	{
         // mActionBackgroundDispatchAsync(^{
         //    Logc("ACTION do_start_observing_reachability (state: %d)", _state);
@@ -370,7 +371,7 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 374 "../lib/universal_transport_session.c"
+#line 375 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr12;
 		case 11: goto st5;
@@ -379,7 +380,7 @@ case 5:
 	}
 	goto st0;
 tr8:
-#line 145 "../lib/universal_transport_session.rl"
+#line 146 "../lib/universal_transport_session.rl"
 	{
         Logc("action do_authenticate");
         
@@ -387,7 +388,7 @@ tr8:
         transport_session_send_message(self, UNIVERSAL_TRANSPORT_MESSAGE_SESSION_AUTHENTICATE, (transport_type_t)_transport_session);
         transport_type_session_release(_transport_session); 
     }
-#line 172 "../lib/universal_transport_session.rl"
+#line 173 "../lib/universal_transport_session.rl"
 	{
         // _stateTimeout = [UniversalTimeout timeoutAfter:kDefaultTimeoutMilliseconds queue:_backgroundSerialQueue block:^{ // setup timeout
         //     LogErrorc("timeout");
@@ -399,7 +400,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 403 "../lib/universal_transport_session.c"
+#line 404 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr15;
 		case 11: goto st6;
@@ -411,18 +412,18 @@ case 6:
 		goto tr17;
 	goto st0;
 tr18:
-#line 179 "../lib/universal_transport_session.rl"
+#line 180 "../lib/universal_transport_session.rl"
 	{
         // [_stateTimeout cancel];
     }
-#line 183 "../lib/universal_transport_session.rl"
+#line 184 "../lib/universal_transport_session.rl"
 	{
         Logc("action did_open_session");
         
         if(self->handler.open_callback != NULL)
             self->handler.open_callback(self->handler.context); // did open to handler
     }
-#line 153 "../lib/universal_transport_session.rl"
+#line 154 "../lib/universal_transport_session.rl"
 	{ // check configuration after authenticated for further actions
 //         mActionBackgroundDispatchAsync(^{
 // //            if(_streamIsEnabled) // check stream flag
@@ -439,7 +440,7 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 443 "../lib/universal_transport_session.c"
+#line 444 "../lib/universal_transport_session.c"
 	switch( (*p) ) {
 		case 10: goto tr20;
 		case 11: goto st7;
@@ -462,7 +463,7 @@ case 7:
 	_out: {}
 	}
 
-#line 302 "../lib/universal_transport_session.rl"
+#line 303 "../lib/universal_transport_session.rl"
     
     if(cs == transport_session_state_error)
     {

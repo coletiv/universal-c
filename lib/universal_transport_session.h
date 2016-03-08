@@ -27,8 +27,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef __UNIVERSAL_C_TRANSPORT_SESSION_H__
 #define __UNIVERSAL_C_TRANSPORT_SESSION_H__
 
-#include "universal_internal.h"
-
 #include "universal_transport_types.h"
 
 UNIVERSAL_EXTERN_C_BEGIN

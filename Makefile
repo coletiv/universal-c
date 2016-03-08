@@ -91,6 +91,6 @@ $(LIB): $(OBJS)
 	mkdir -p $(INSTALL_DIR)
 	cp -p $(LIB) $(INSTALL_DIR)
 	mkdir -p $(INSTALL_DIR)/include/$(LIB_NAME)
-	cp -p `find $(LIB_DIR) -name "*.h" -not -path "*_internal.h"` $(INSTALL_DIR)/include/$(LIB_NAME)/
+	cp -p `find $(LIB_DIR) -name "*.h"` $(INSTALL_DIR)/include/$(LIB_NAME)/
 	rm *.o
 	rm *SYMDEF*

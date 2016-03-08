@@ -28,6 +28,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "universal_transport_session_internal.h"
 #include "universal_transport_session_state.h"
 
+#include "universal_internal.h"
 #include "universal_transport_constants.h"
 
 #pragma mark -

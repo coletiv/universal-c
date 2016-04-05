@@ -28,7 +28,7 @@
 #ifndef __UNIVERSAL_C_TRANSPORT_MOCK_WEBSOCKET_SERVER_H__
 #define __UNIVERSAL_C_TRANSPORT_MOCK_WEBSOCKET_SERVER_H__
 
-#include "../../../lib/universal_base.h"
+#include "../../../lib/universal_internal.h"
 
 #include <libwebsockets.h>
 

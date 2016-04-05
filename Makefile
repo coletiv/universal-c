@@ -21,10 +21,10 @@ CXXFLAGS += -g -Wall -Wextra -DGTEST_HAS_PTHREAD=0 -DDEBUG=1 -DTEST=1 -L/usr/loc
 CXX = g++
 
 # All source object files
-OBJS = universal_transport_reachability.o universal_transport_types.o universal_transport_messages.o universal_transport_websocket.o universal_transport_session.o
+OBJS = universal_transport_reachability.o universal_transport_types.o universal_transport_messages.o universal_transport_websocket.o universal_transport_session.o universal_transport_queue.o
 
 # All tests
-UNIT_TESTS = universal_transport_types_test universal_transport_messages_test universal_transport_reachability_test
+UNIT_TESTS = universal_transport_queue_test universal_transport_types_test universal_transport_messages_test universal_transport_reachability_test
 INTEGRATION_TESTS = universal_transport_websocket_test universal_transport_session_test
 TESTS = $(UNIT_TESTS) $(INTEGRATION_TESTS)
 
@@ -45,6 +45,7 @@ clean:
 
 check: $(TESTS) 
 	./universal_transport_reachability_test
+	./universal_transport_queue_test
 	./universal_transport_types_test
 	./universal_transport_messages_test
 	./universal_transport_websocket_test

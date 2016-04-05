@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "universal_transport_websocket.h"
 #include "universal_transport_constants.h"
+#include "universal_transport_queue.h"
 
 #include <sys/types.h>
 
@@ -33,7 +34,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma mark libwebsocket session data
 
 #define TRANSPORT_WEBSOCKET_MAX_FRAME_SIZE 2048
-#define TRANSPORT_WEBSOCKET_QUEUE_CAPACITY 15
 
 /*!
 * @typedef transport_websocket_t
@@ -57,10 +57,7 @@ struct transport_websocket_s {
     unsigned int port;
     unsigned int ssl; // ssl connection 0 = ws://, 1 = wss:// encrypted, 2 = wss:// allow self signed certs
     
-    transport_message_t queue[TRANSPORT_WEBSOCKET_QUEUE_CAPACITY];
-    int queue_head;
-    int queue_tail;
-    int queue_count;
+    transport_queue_t queue; // queue used to keep messages waiting for space available in the write buffer
 };
 
 /*!
@@ -147,10 +144,9 @@ static int websocket_callback(struct lws * wsi, enum lws_callback_reasons reason
                 //Logc("transport_websocket: LWS_CALLBACK_CLIENT_WRITEABLE\n");
     		
                 // dequeue
-                while (transport_websocket->queue_count > 0) 
+                while (!transport_queue_is_empty(transport_websocket->queue)) 
                 {
-                    int queue_head = transport_websocket->queue_head;
-                    transport_message_t message = transport_websocket->queue[queue_head];
+                    transport_message_t message = (transport_message_t)transport_queue_pop(transport_websocket->queue);
                     
                     memcpy((void *)&session_data->bytes[LWS_SEND_BUFFER_PRE_PADDING], message->data, message->size);
                     session_data->size = message->size;
@@ -166,9 +162,6 @@ static int websocket_callback(struct lws * wsi, enum lws_callback_reasons reason
                         LogErrorc("LWS_CALLBACK_CLIENT_WRITEABLE: Partial write");
                         return -1;
                     }
-                    
-                    transport_websocket->queue_head = (++queue_head) % TRANSPORT_WEBSOCKET_QUEUE_CAPACITY;
-                    transport_websocket->queue_count -= 1; 
                     
                     transport_message_release(message);
                 }
@@ -283,8 +276,7 @@ transport_websocket_t transport_websocket_create(struct transport_websocket_hand
 		transport_websocket_configure_url(transport_websocket, url);
         
         // queue
-        transport_websocket->queue_count = 0;
-        transport_websocket->queue_head = transport_websocket->queue_tail = 0;
+        transport_websocket->queue = transport_queue_create();
         
         // ws
         transport_websocket->ws_context = NULL; // NULL until open
@@ -300,6 +292,8 @@ void transport_websocket_release(transport_websocket_t transport_websocket)
 	
 	free(transport_websocket->host);
     free(transport_websocket);
+    
+    transport_queue_destroy(transport_websocket->queue);    
 }
 
 #pragma mark -
@@ -366,28 +360,8 @@ void transport_websocket_write(transport_websocket_t transport_websocket, transp
     if(transport_websocket->ws_context != NULL)
     {
         // enqueue
-        if(transport_websocket->queue_count < TRANSPORT_WEBSOCKET_QUEUE_CAPACITY) // insert message at the queue tail, don't overwrite head
-        {
-			Logc("transport_websocket: Write enqueue (size %d)", transport_websocket->queue_count);
-            int queue_tail = transport_websocket->queue_tail;
-            transport_websocket->queue[queue_tail] = transport_message;
-            queue_tail = ((queue_tail+1) % TRANSPORT_WEBSOCKET_QUEUE_CAPACITY);
-            transport_websocket->queue_count += 1;
-            transport_websocket->queue_tail = queue_tail; 
-        }
-        else // insert at the queue tail, overwrite head
-        {
-			Logc("transport_websocket: Write enqueue + overwrite (size %d)", transport_websocket->queue_count);
-            int queue_tail = transport_websocket->queue_tail;
-            int queue_head = transport_websocket->queue_head;
-            queue_head = ((queue_head+1) % TRANSPORT_WEBSOCKET_QUEUE_CAPACITY); // overwrite head
-            transport_websocket->queue[queue_tail] = transport_message;
-            queue_tail = ((queue_tail+1) % TRANSPORT_WEBSOCKET_QUEUE_CAPACITY);
-            transport_websocket->queue_count += 1;
-            transport_websocket->queue_head = queue_head;
-            transport_websocket->queue_tail = queue_tail;
-        }
-        
+        transport_queue_push(transport_websocket->queue, transport_message);    
+            
         lws_callback_on_writable(transport_websocket->ws);
     }
 }

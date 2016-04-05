@@ -42,7 +42,7 @@ struct transport_queue_s {
 transport_queue_t transport_queue_create()
 {
 	transport_queue_t new_queue;
-	new_queue = (transport_queue_t)calloc(sizeof(struct transport_queue_s));
+	new_queue = (transport_queue_t)calloc(1, sizeof(struct transport_queue_s));
 	if (new_queue)
 	{
 		new_queue->head = NULL;
@@ -92,7 +92,7 @@ void transport_queue_push(transport_queue_t q, transport_queue_object_t o)
 	}
 	else
 	{
-		push_queue_node = (transport_queue_node_t)calloc(sizeof(struct transport_queue_node_s));
+		push_queue_node = (transport_queue_node_t)calloc(1, sizeof(struct transport_queue_node_s));
 	}
 	
 	if (push_queue_node)

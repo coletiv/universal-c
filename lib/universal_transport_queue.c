@@ -43,7 +43,7 @@ transport_queue_t transport_queue_create()
 {
 	transport_queue_t new_queue;
 	new_queue = (transport_queue_t)calloc(sizeof(struct transport_queue_s));
-	if(new_queue)
+	if (new_queue)
 	{
 		new_queue->head = NULL;
 		new_queue->tail = NULL;
@@ -85,7 +85,7 @@ void transport_queue_push(transport_queue_t q, transport_queue_object_t o)
 {
 	transport_queue_node_t push_queue_node;
 	
-	if(q->reserved)
+	if (q->reserved)
 	{
 		push_queue_node = q->reserved;
 		q->reserved = q->reserved->next;
@@ -95,12 +95,12 @@ void transport_queue_push(transport_queue_t q, transport_queue_object_t o)
 		push_queue_node = (transport_queue_node_t)calloc(sizeof(struct transport_queue_node_s));
 	}
 	
-	if(push_queue_node)
+	if (push_queue_node)
 	{
 		push_queue_node->object = o;
 		push_queue_node->next = NULL;
 		
-		if(q->head == NULL && q->tail == NULL) 
+		if (q->head == NULL && q->tail == NULL) 
 		{			
 			q->head = push_queue_node;
 		}
@@ -117,12 +117,12 @@ transport_queue_object_t transport_queue_pop(transport_queue_t q)
 {
 	transport_queue_object_t pop_queue_object = NULL;
 	
-	if((q->head == NULL && q->tail == NULL) == false) // not empty
+	if (transport_queue_is_empty(q) == false) // not empty
 	{
 		transport_queue_node_t pop_queue_node = q->head;
 	 	pop_queue_object = pop_queue_node->object;
 		
-		if(q->head == q->tail) // 1 node
+		if (q->head == q->tail) // 1 node
 		{
 			q->head = NULL;
 			q->tail = NULL;

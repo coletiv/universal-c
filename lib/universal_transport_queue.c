@@ -100,10 +100,14 @@ void transport_queue_push(transport_queue_t q, transport_queue_object_t o)
 		push_queue_node->object = o;
 		push_queue_node->next = NULL;
 		
-		if(q->head == NULL && q->tail == NULL)
+		if(q->head == NULL && q->tail == NULL) 
+		{			
 			q->head = push_queue_node;
-		else
+		}
+		else 
+		{
 			q->tail->next = push_queue_node;
+		}
 			
 		q->tail = push_queue_node;
 	}
